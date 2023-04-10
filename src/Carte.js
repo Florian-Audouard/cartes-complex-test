@@ -13,7 +13,7 @@ function Carte() {
 			.then((data) => {
 				tmpEx = JSON.parse(data);
 				setEx(tmpEx);
-				const tmp = toClass(tmpEx[0][0], 0);
+				const tmp = toClass(tmpEx[0][1], 0);
 				console.log(tmp.toString());
 				setCurrentEx(tmp);
 			});
@@ -57,10 +57,12 @@ function Carte() {
 		}
 		let className = "carte_container_horizon";
 		let link = "link_horizon";
+		className = "carte_container_vertical";
+		link = "link_vertical";
 
 		if (count % 2 === 0) {
-			className = "carte_container_vertical";
-			link = "link_vertical";
+			className = "carte_container_horizon";
+			link = "link_horizon";
 		}
 		return (
 			<span className={className}>
@@ -78,14 +80,38 @@ function Carte() {
 		if (currentCard === undefined) {
 			return <span></span>;
 		}
-		return recurciveRender(
-			currentCard.left,
-			currentCard.left.getProfondeur()
-		);
+		return recurciveRender(currentCard, currentCard.getProfondeur());
 	}
+
+	function calcSizeCard(card) {
+		if (card === undefined) {
+			return {
+				minWidth: 0,
+				minHeight: 0,
+			};
+		}
+		let width = 170;
+		let height = 250;
+		let save_deep = card.getProfondeur();
+		if (save_deep % 2 === 0) {
+			width = 270;
+		}
+		if (save_deep > 3) {
+			width *= 2;
+			height *= 2;
+		}
+		let tmp = {
+			width: width,
+			height: height,
+		};
+		return tmp;
+	}
+
 	return (
 		<div className="deck">
-			<RenderCard currentCard={currentEx}></RenderCard>
+			<div className="carte_size" style={calcSizeCard(currentEx)}>
+				<RenderCard currentCard={currentEx}></RenderCard>
+			</div>
 		</div>
 	);
 }

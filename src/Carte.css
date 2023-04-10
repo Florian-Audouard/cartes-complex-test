@@ -43,9 +43,14 @@
     align-items: center;
     align-self: center;
     justify-content: center;
-    right:0px
+    margin-left: 100px;
+    transform: rotate(90deg);
 
-
+}
+.carte_size{
+    display: inline-grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
 }
 .deck{
     display: inline-grid;
